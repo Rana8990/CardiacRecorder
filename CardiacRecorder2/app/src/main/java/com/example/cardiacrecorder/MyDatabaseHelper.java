@@ -47,6 +47,18 @@ class MyDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    public boolean checkIfDataExists(String time) {
+        SQLiteDatabase sqLiteDatabase = this.getWritableDatabase();
+        String Query = "Select * from " + TABLE_NAME + " where " + COLUMN_TIME + " = " + time;
+        Cursor cursor = sqLiteDatabase.rawQuery(Query, null);
+        if(cursor.getCount() <= 0){
+            cursor.close();
+            return false;
+        }
+        cursor.close();
+        return true;
+    }
+
     void addBook(String time, String date,String sp, String dp,String hr, String cmt){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
